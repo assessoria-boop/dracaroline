@@ -1,0 +1,53 @@
+==========================================================
+ Dra. Caroline Machado — Landing Page
+ Arquivos de imagem que devem ser adicionados nesta pasta
+==========================================================
+
+IMPORTANTE: TODAS as imagens devem estar em formato .webp
+(converta antes de subir — melhora muito a velocidade da página).
+
+--------------------------------------------------
+1) LOGO / FAVICON
+--------------------------------------------------
+- logo.webp
+  (usada no topo do hero E como favicon da página)
+  Sugerido: imagem quadrada, mínimo 260x260px.
+
+--------------------------------------------------
+2) IMAGENS DE FUNDO DO HERO (primeira dobra)
+--------------------------------------------------
+- hero desk.webp    -> versão desktop (recomendado 1920x1080, horizontal)
+- hero mobile.webp  -> versão celular (recomendado 1080x1920, vertical)
+
+--------------------------------------------------
+3) DEPOIMENTOS (prints reais das avaliações do Google)
+--------------------------------------------------
+- 1.webp
+- 2.webp
+- 3.webp
+- 4.webp
+- 5.webp
+- 6.webp
+  (prints das avaliações. Proporção vertical ~3:4 fica melhor.
+   Pode adicionar/remover mais slides no código se precisar.)
+
+--------------------------------------------------
+4) FOTOS DO ATENDIMENTO / CLÍNICA (carrossel com fade)
+--------------------------------------------------
+- dr01.webp
+- dr02.webp
+- dr03.webp
+- dr04.webp
+- dr05.webp
+  (fotos da Dra. Caroline atendendo. Proporção 4:3 horizontal fica melhor,
+   pois o quadro do carrossel usa aspect-ratio 4/3 e as imagens são recortadas
+   de forma proporcional — sem esticar e sem perder qualidade.)
+
+==========================================================
+ DADOS JÁ CONFIGURADOS NA PÁGINA
+==========================================================
+- WhatsApp: +55 11 95167-7586 (somente botões, número não aparece na tela)
+- Mensagem automática: "Olá encontrei vocês pelo Google, gostaria de atendimento."
+- Google Tag Manager: GTM-5HHS5Q2P
+- Cores: Rosa terroso (#C97B84) + Nude (#A8756B) | Botões WhatsApp verdes
+==========================================================
