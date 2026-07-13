@@ -161,7 +161,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 90px 24px 56px;
+  padding: 140px 24px 56px;
   position: relative;
   overflow: hidden;
 }
@@ -283,99 +283,47 @@ body {
   font-weight: 700;
 }
 
-/* ==================== HERO ANIMATED BACKGROUND ==================== */
-@keyframes blobDrift1 {
-  0%   { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(70px, 50px) scale(1.18); }
-  66%  { transform: translate(-40px, 90px) scale(0.92); }
-  100% { transform: translate(0, 0) scale(1); }
-}
-
-@keyframes blobDrift2 {
-  0%   { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(-80px, -40px) scale(1.12); }
-  66%  { transform: translate(60px, -70px) scale(1.05); }
-  100% { transform: translate(0, 0) scale(1); }
-}
-
-@keyframes blobDrift3 {
-  0%   { transform: translate(-50%, -50%) scale(1); }
-  50%  { transform: translate(-50%, -50%) scale(1.28); }
-  100% { transform: translate(-50%, -50%) scale(1); }
-}
-
-.hero .hero-glow-1 {
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, rgba(201,123,132,0.42) 0%, transparent 70%);
-  filter: blur(30px);
-  top: -120px;
-  left: -160px;
-  animation: blobDrift1 16s ease-in-out infinite;
-}
-
-.hero .hero-glow-2 {
-  width: 480px;
-  height: 480px;
-  background: radial-gradient(circle, rgba(168,117,107,0.38) 0%, transparent 70%);
-  filter: blur(30px);
-  bottom: -150px;
-  right: -140px;
-  animation: blobDrift2 19s ease-in-out infinite;
-}
-
-.hero-glow-3 {
-  position: absolute;
-  width: 440px;
-  height: 440px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(226,178,170,0.38) 0%, transparent 70%);
-  filter: blur(30px);
-  top: 45%;
-  left: 55%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  animation: blobDrift3 14s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero .hero-glow-1,
-  .hero .hero-glow-2,
-  .hero-glow-3 { animation: none; }
-}
-
 /* ==================== STATS ==================== */
 .stats {
   background: linear-gradient(135deg, var(--rose) 0%, var(--rose-dark) 100%);
-  padding: 52px 20px;
+  padding: 56px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Divisórias em cruz — atravessam a dobra inteira, de ponta a ponta */
+.stats::before,
+.stats::after {
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.30);
+  pointer-events: none;
+}
+
+.stats::before {   /* linha vertical: topo ao rodapé da dobra */
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.stats::after {    /* linha horizontal: borda esquerda à direita */
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 32px 20px;
+  gap: 40px 20px;
   max-width: 760px;
   margin: 0 auto;
-  /* Divisórias — cruz central no mobile (2x2) */
-  background-image:
-    linear-gradient(rgba(255,255,255,0.30), rgba(255,255,255,0.30)),
-    linear-gradient(rgba(255,255,255,0.30), rgba(255,255,255,0.30));
-  background-repeat: no-repeat;
-  background-size: 1px 100%, 100% 1px;
-  background-position: 50% 0, 0 50%;
-}
-
-@media (min-width: 640px) {
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-    /* Divisórias — 3 linhas verticais alinhadas no desktop */
-    background-image:
-      linear-gradient(rgba(255,255,255,0.30), rgba(255,255,255,0.30)),
-      linear-gradient(rgba(255,255,255,0.30), rgba(255,255,255,0.30)),
-      linear-gradient(rgba(255,255,255,0.30), rgba(255,255,255,0.30));
-    background-size: 1px 100%, 1px 100%, 1px 100%;
-    background-position: 25% 0, 50% 0, 75% 0;
-  }
+  position: relative;
+  z-index: 1;
 }
 
 .stat-item { text-align: center; color: #fff; }
@@ -544,12 +492,13 @@ body {
 /* ==================== CLINIC IMAGES ==================== */
 .clinic-fade {
   position: relative;
-  max-width: 640px;
+  max-width: 400px;
   margin: 36px auto 0;
   border-radius: 20px;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 9 / 14;
   background: var(--light);
+  box-shadow: 0 8px 30px rgba(201,123,132,0.18);
 }
 
 .clinic-img-slide {
@@ -788,7 +737,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero-overlay"></div>
   <div class="hero-glow-1"></div>
   <div class="hero-glow-2"></div>
-  <div class="hero-glow-3"></div>
   <div class="hero-content">
 
     <div class="hero-logo-wrap">
@@ -936,19 +884,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="clinic-fade" id="clinicFade">
       <div class="clinic-img-slide on" id="cslide-0">
-        <img src="dr01.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="640" height="480">
+        <img src="dr1.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
       </div>
       <div class="clinic-img-slide" id="cslide-1">
-        <img src="dr02.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="640" height="480">
+        <img src="dr2.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
       </div>
       <div class="clinic-img-slide" id="cslide-2">
-        <img src="dr03.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="640" height="480">
+        <img src="dr3.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
       </div>
       <div class="clinic-img-slide" id="cslide-3">
-        <img src="dr04.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="640" height="480">
+        <img src="dr4.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
       </div>
       <div class="clinic-img-slide" id="cslide-4">
-        <img src="dr05.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="640" height="480">
+        <img src="dr5.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
       </div>
     </div>
 
@@ -1013,8 +961,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="section section-alt">
   <div class="container tc">
     <span class="s-tag">Cobertura</span>
-    <h2 class="s-title">Regiões Atendidas em São Paulo</h2>
-    <p class="s-sub">Com <span style="color:var(--nude);font-weight:700">Localização Privilegiada</span> na Zona Leste, atendemos toda a capital paulista</p>
+    <h2 class="s-title" style="margin-bottom:0">Regiões Atendidas em São Paulo</h2>
 
     <div class="areas-wrap">
       <span class="area-chip">São Miguel Paulista</span>
@@ -1056,7 +1003,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <p>© 2025 Dra. Caroline Machado — Médica Veterinária em São Paulo, SP</p>
+  <p>© 2026 Dra. Caroline Machado — Médica Veterinária em São Paulo, SP</p>
   <p style="margin-top:6px">Atendimento Veterinário Domiciliar (Home Care) · O cuidado que vai até o seu pet</p>
 </footer>
 
@@ -1066,114 +1013,143 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </a>
 
 <script>
-// ===== TESTIMONIALS CAROUSEL =====
+// ===== TESTIMONIALS CAROUSEL (loop infinito) =====
 (function () {
   var wrap = document.getElementById('testiWrap');
   var track = document.getElementById('testiTrack');
   var dotsEl = document.getElementById('testiDots');
   if (!track) return;
 
-  var slides = track.querySelectorAll('.testi-slide');
-  var total = slides.length;
+  var originals = Array.prototype.slice.call(track.querySelectorAll('.testi-slide'));
+  var total = originals.length;
+  if (!total) return;
+
+  // Clona os slides no fim: permite o giro contínuo sem salto visível
+  originals.forEach(function (s) {
+    var c = s.cloneNode(true);
+    c.setAttribute('aria-hidden', 'true');
+    track.appendChild(c);
+  });
+
+  var GAP = 20;
+  var DUR = 550;
   var cur = 0;
+  var curTX = 0;
   var startX = 0;
   var startTX = 0;
-  var curTX = 0;
   var dragging = false;
+  var animating = false;
   var timer;
-  var GAP = 20;
 
-  function slideW() {
-    return (slides[0] ? slides[0].offsetWidth + GAP : 313);
+  function slideW() { return originals[0].offsetWidth + GAP; }
+
+  function setTX(px, animate) {
+    curTX = px;
+    track.style.transition = animate ? 'transform ' + DUR + 'ms ease' : 'none';
+    track.style.transform = 'translateX(' + px + 'px)';
   }
 
-  function visible() {
-    return Math.max(1, Math.floor((wrap.offsetWidth + GAP) / slideW()));
+  function updateDots() {
+    var active = ((cur % total) + total) % total;
+    dotsEl.querySelectorAll('.dot').forEach(function (d, i) {
+      d.classList.toggle('on', i === active);
+    });
   }
 
-  function maxIdx() {
-    return Math.max(0, total - visible());
+  function next() {
+    if (animating) return;
+    animating = true;
+    cur++;
+    setTX(-cur * slideW(), true);
+    updateDots();
+    setTimeout(function () {
+      // Chegou no bloco clonado: volta ao inicio sem animacao (loop invisivel)
+      if (cur >= total) {
+        cur = 0;
+        setTX(0, false);
+        updateDots();
+      }
+      animating = false;
+    }, DUR + 20);
+  }
+
+  function prev() {
+    if (animating) return;
+    animating = true;
+    if (cur <= 0) {
+      // Salta para a copia equivalente no fim, sem animacao, e entao anima para tras
+      cur = total;
+      setTX(-cur * slideW(), false);
+      track.offsetHeight; // forca reflow para o salto nao ser animado
+    }
+    cur--;
+    setTX(-cur * slideW(), true);
+    updateDots();
+    setTimeout(function () { animating = false; }, DUR + 20);
+  }
+
+  function goTo(i) {
+    if (animating) return;
+    cur = i;
+    setTX(-cur * slideW(), true);
+    updateDots();
   }
 
   function buildDots() {
     dotsEl.innerHTML = '';
-    var n = maxIdx() + 1;
-    for (var i = 0; i < n; i++) {
+    for (var i = 0; i < total; i++) {
       (function (idx) {
         var d = document.createElement('button');
         d.className = 'dot' + (idx === 0 ? ' on' : '');
-        d.setAttribute('aria-label', 'Página ' + (idx + 1));
+        d.setAttribute('aria-label', 'Depoimento ' + (idx + 1));
         d.addEventListener('click', function () { goTo(idx); resetTimer(); });
         dotsEl.appendChild(d);
       })(i);
     }
   }
 
-  function updateDots() {
-    var ds = dotsEl.querySelectorAll('.dot');
-    ds.forEach(function (d, i) { d.classList.toggle('on', i === cur); });
-  }
-
-  function goTo(i) {
-    i = Math.max(0, Math.min(i, maxIdx()));
-    cur = i;
-    curTX = -cur * slideW();
-    track.style.transition = 'transform 0.38s ease';
-    track.style.transform = 'translateX(' + curTX + 'px)';
-    updateDots();
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, 3500);
   }
 
   function getX(e) { return e.touches ? e.touches[0].clientX : e.clientX; }
 
-  wrap.addEventListener('touchstart', function (e) {
+  function dragStart(x) {
+    if (animating) return;
     dragging = true;
-    startX = getX(e);
+    startX = x;
     startTX = curTX;
     track.style.transition = 'none';
     clearInterval(timer);
-  }, { passive: true });
-
-  wrap.addEventListener('touchmove', function (e) {
-    if (!dragging) return;
-    track.style.transform = 'translateX(' + (startTX + getX(e) - startX) + 'px)';
-  }, { passive: true });
-
-  wrap.addEventListener('touchend', function (e) {
-    dragging = false;
-    var dx = (e.changedTouches ? e.changedTouches[0].clientX : getX(e)) - startX;
-    goTo(Math.abs(dx) > 48 ? (dx < 0 ? cur + 1 : cur - 1) : cur);
-    resetTimer();
-  });
-
-  wrap.addEventListener('mousedown', function (e) {
-    dragging = true;
-    startX = e.clientX;
-    startTX = curTX;
-    track.style.transition = 'none';
-    clearInterval(timer);
-  });
-  window.addEventListener('mousemove', function (e) {
-    if (!dragging) return;
-    track.style.transform = 'translateX(' + (startTX + e.clientX - startX) + 'px)';
-  });
-  window.addEventListener('mouseup', function (e) {
-    if (!dragging) return;
-    dragging = false;
-    var dx = e.clientX - startX;
-    goTo(Math.abs(dx) > 48 ? (dx < 0 ? cur + 1 : cur - 1) : cur);
-    resetTimer();
-  });
-
-  function resetTimer() {
-    clearInterval(timer);
-    timer = setInterval(function () { goTo(cur < maxIdx() ? cur + 1 : 0); }, 4000);
   }
 
-  window.addEventListener('resize', function () {
-    cur = Math.min(cur, maxIdx());
-    buildDots();
-    goTo(cur);
+  function dragMove(x) {
+    if (!dragging) return;
+    track.style.transform = 'translateX(' + (startTX + x - startX) + 'px)';
+  }
+
+  function dragEnd(x) {
+    if (!dragging) return;
+    dragging = false;
+    var dx = x - startX;
+    if (dx < -48) { next(); }
+    else if (dx > 48) { prev(); }
+    else { setTX(curTX, true); }
+    resetTimer();
+  }
+
+  wrap.addEventListener('touchstart', function (e) { dragStart(getX(e)); }, { passive: true });
+  wrap.addEventListener('touchmove', function (e) { dragMove(getX(e)); }, { passive: true });
+  wrap.addEventListener('touchend', function (e) {
+    dragEnd(e.changedTouches ? e.changedTouches[0].clientX : startX);
   });
+
+  wrap.addEventListener('mousedown', function (e) { e.preventDefault(); dragStart(e.clientX); });
+  window.addEventListener('mousemove', function (e) { dragMove(e.clientX); });
+  window.addEventListener('mouseup', function (e) { dragEnd(e.clientX); });
+
+  window.addEventListener('resize', function () { setTX(-cur * slideW(), false); });
 
   buildDots();
   resetTimer();
