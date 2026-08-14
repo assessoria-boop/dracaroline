@@ -62,10 +62,10 @@ body {
   left: 0;
   right: 0;
   z-index: 999;
-  background: var(--rose);
+  background: rgba(255,255,255,0.97);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
   padding: 10px 16px;
   display: flex;
   align-items: center;
@@ -75,13 +75,13 @@ body {
 
 .header-text {
   font-size: 13px;
-  color: #fff;
+  color: var(--rose);
   white-space: nowrap;
 }
 
 .header-text strong {
   font-weight: 800;
-  color: #fff;
+  color: var(--rose);
 }
 
 /* ==================== BUTTONS ==================== */
@@ -161,7 +161,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 140px 24px 56px;
+  padding: 120px 24px 80px;
   position: relative;
   overflow: hidden;
 }
@@ -230,37 +230,110 @@ body {
   margin-bottom: 20px;
 }
 
-.hero h1 {
-  font-size: clamp(24px, 5.5vw, 42px);
-  font-weight: 800;
-  color: var(--dark);
-  line-height: 1.2;
-  margin-bottom: 16px;
-  letter-spacing: -0.5px;
+.mob-br { display: none; }
+.desk-br { display: none; }
+
+.hero-brand {
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+  color: var(--rose);
+  line-height: 1.1;
+  margin-bottom: 4px;
 }
 
-.hero h1 em {
+.hero-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 26px;
+}
+
+.hero-name {
+  font-size: clamp(30px, 4.4vw, 50px);
+  font-weight: 400;
+  color: var(--dark);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin: 0 auto 18px;
+  max-width: 560px;
+}
+
+.hero-name em {
   font-style: normal;
   color: var(--rose);
 }
 
-.mob-br { display: none; }
-
-.hero-crm {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--rose);
-  margin-bottom: 14px;
+.hero-sub {
+  font-size: clamp(15px, 2.2vw, 17px);
+  color: #1a1a1a;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto 30px;
 }
 
-.hero-sub {
-  font-size: clamp(15px, 2.4vw, 18px);
-  color: var(--gray);
-  font-weight: 500;
-  line-height: 1.5;
-  max-width: 520px;
-  margin: 0 auto 30px;
+/* Selos flutuantes + faixa deslizante (estilo referência) */
+.hero-badge {
+  position: absolute;
+  z-index: 2;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.7);
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.hero-badge svg {
+  width: 18px;
+  height: 18px;
+  color: var(--rose);
+}
+
+.hero-marquee {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  background: var(--rose);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 11px 0;
+}
+
+.hero-marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: heroMarquee 26s linear infinite;
+}
+
+.hero-marquee-track span {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 10px;
+}
+
+@keyframes heroMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.hero-cta-group {
+  display: inline-block;
+  text-align: center;
 }
 
 .hero-cta {
@@ -291,62 +364,54 @@ body {
   font-weight: 700;
 }
 
-/* ==================== STATS ==================== */
+/* ==================== STATS (carrossel automático) ==================== */
 .stats {
   background: linear-gradient(135deg, var(--rose) 0%, var(--rose-dark) 100%);
-  padding: 56px 20px;
-  position: relative;
+  padding: 24px 0;
   overflow: hidden;
 }
 
-/* Divisórias em cruz — atravessam a dobra inteira, de ponta a ponta */
-.stats::before,
-.stats::after {
-  content: "";
-  position: absolute;
-  background: rgba(255,255,255,0.30);
-  pointer-events: none;
+.stats-marquee {
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.stats::before {   /* linha vertical: topo ao rodapé da dobra */
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  transform: translateX(-50%);
+.stats-track {
+  display: inline-flex;
+  align-items: center;
+  animation: statsMarquee 28s linear infinite;
 }
 
-.stats::after {    /* linha horizontal: borda esquerda à direita */
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-  transform: translateY(-50%);
+.stats-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 26px;
+  color: #fff;
+  white-space: nowrap;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px 20px;
-  max-width: 760px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.stat-item { text-align: center; color: #fff; }
-
-.stat-num {
-  font-size: clamp(22px, 5vw, 32px);
+.stats-item .n {
+  font-size: clamp(24px, 3vw, 30px);
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 5px;
 }
 
-.stat-lbl {
-  font-size: 12px;
-  opacity: 0.9;
+.stats-item .l {
+  font-size: 15px;
   font-weight: 500;
+  opacity: 0.92;
+}
+
+.stats-sep {
+  color: rgba(255,255,255,0.55);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+@keyframes statsMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* ==================== SECTIONS ==================== */
@@ -447,51 +512,118 @@ body {
 
 .s-card {
   background: #fff;
-  border-radius: 16px;
-  padding: 26px 22px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-  border-top: 3px solid var(--rose);
+  border: 1.5px solid rgba(201,123,132,0.55);
+  border-radius: 18px;
+  padding: 10px;
   transition: transform 0.2s, box-shadow 0.2s;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .s-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(201,123,132,0.16);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(201,123,132,0.18);
 }
 
-.s-card-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--rose), var(--rose-dark));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
+.s-card-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f4dadd, #ecc7cb);
 }
 
-.s-card-icon svg {
-  width: 26px;
-  height: 26px;
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.s-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.s-card-body {
+  padding: 16px 12px 12px;
 }
 
 .s-card-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--dark);
+  color: var(--rose);
   margin-bottom: 7px;
 }
 
 .s-card-desc {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.55;
+}
+
+/* ==================== VALUE (Proposta de Valor) ==================== */
+.value-section {
+  background: #f4f4f5;
+  position: relative;
+  overflow: hidden;
+}
+
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 22px;
+  margin-top: 44px;
+}
+
+.value-card {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(201,123,132,0.16);
+  transition: transform 0.25s, box-shadow 0.25s;
+  overflow: hidden;
+}
+
+.value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 44px rgba(201,123,132,0.26);
+}
+
+.value-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f4dadd, #ecc7cb);
+}
+
+.value-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.value-num {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 40px;
+  font-weight: 800;
+  color: #fff;
+  opacity: 0.9;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+
+.value-body {
+  padding: 24px 24px 28px;
+}
+
+.value-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 9px;
+}
+
+.value-desc {
   font-size: 14px;
   color: var(--gray);
   line-height: 1.55;
@@ -690,13 +822,46 @@ footer {
 }
 
 /* ==================== MOBILE CENTERS ==================== */
+/* ==================== HERO DESKTOP (imagem de fundo) ==================== */
+@media (min-width: 768px) {
+  .hero {
+    background: #ffffff url("bg-desktop.webp") center 22% / cover no-repeat;
+    justify-content: flex-start;
+    text-align: left;
+    min-height: 520px;
+    aspect-ratio: 16 / 8.6;
+    padding: 70px 6% 80px 10%;
+  }
+
+  .hero-overlay {
+    display: block;
+    background: linear-gradient(to right, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.5) 40%, rgba(255,255,255,0) 62%);
+  }
+
+  .hero-content {
+    margin: 0;
+    max-width: 560px;
+    text-align: left;
+  }
+
+  .hero-name { margin-left: 0; margin-right: 0; }
+  .hero-sub { margin-left: 0; margin-right: 0; }
+  .hero-response { color: var(--gray); }
+
+  .desk-br { display: inline; }
+
+  .hero-badge { display: inline-flex; }
+  .hero-badge-1 { top: 44%; right: 40%; }
+  .hero-badge-2 { top: 54%; right: 8%; }
+}
+
 @media (max-width: 767px) {
   h1, h2, h3, h4,
   .s-title, .s-sub, .s-tag,
   .why-title, .why-desc,
   .cta-title, .cta-text { text-align: center !important; }
 
-  .hero h1 { font-size: 40px; }
+  .hero-name { font-size: 42px; }
 
   .mob-br { display: inline; }
 
@@ -743,50 +908,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-overlay"></div>
-  <div class="hero-glow-1"></div>
-  <div class="hero-glow-2"></div>
   <div class="hero-content">
 
-    <div class="hero-logo-wrap">
-      <img src="logo.webp" alt="Dra. Caroline Machado" class="hero-logo" width="130" height="130">
+    <p class="hero-brand">Dra. Caroline Machado</p>
+
+    <p class="hero-label">Médica Veterinária · CRM 52551</p>
+
+    <h1 class="hero-name">Todo o cuidado que seu pet merece, <em>no conforto de casa</em></h1>
+
+    <p class="hero-sub">Atendimento veterinário domiciliar com calma, atenção<br class="desk-br"> e carinho, sem filas e sem sala de espera.</p>
+
+    <div class="hero-cta-group">
+      <div class="hero-cta">
+        <a class="btn-wa-lg" href="https://wa.me/5511956177586?text=Ol%C3%A1%20encontrei%20voc%C3%AAs%20pelo%20Google%2C%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer" aria-label="Falar via WhatsApp">
+          <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Atendimento Imediato
+        </a>
+      </div>
+
+      <p class="hero-response">Resposta em 2 minutos ⚡</p>
     </div>
-
-    <h1><em>Dra. Caroline</em><br>Veterinária a Domicílio</h1>
-
-    <p class="hero-crm">CRM - 52551</p>
-
-    <p class="hero-sub">Segurança e cuidado com seu pet,<br class="mob-br"> no conforto da sua casa!</p>
-
-    <div class="hero-cta">
-      <a class="btn-wa-lg" href="https://wa.me/5511956177586?text=Ol%C3%A1%20encontrei%20voc%C3%AAs%20pelo%20Google%2C%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer" aria-label="Falar via WhatsApp">
-        <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Atendimento Imediato
-      </a>
-    </div>
-
-    <p class="hero-response">Resposta em 2 minutos ⚡</p>
 
   </div>
+
+  <div class="hero-badge hero-badge-1">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    Médica Veterinária
+  </div>
+  <div class="hero-badge hero-badge-2">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+    Atendimento a Domicílio
+  </div>
+
 </section>
 
 <!-- ===== STATS ===== -->
 <section class="stats" aria-label="Números">
-  <div class="stats-grid">
-    <div class="stat-item">
-      <div class="stat-num">5.0</div>
-      <div class="stat-lbl">Avaliação no Google</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">+87</div>
-      <div class="stat-lbl">Avaliações Positivas</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">100%</div>
-      <div class="stat-lbl">Atendimento Domiciliar</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">SP</div>
-      <div class="stat-lbl">Atende Toda a Capital</div>
+  <div class="stats-marquee">
+    <div class="stats-track">
+      <span class="stats-item"><span class="n">5.0</span><span class="l">Avaliação no Google</span></span>
+      <span class="stats-sep">✦</span>
+      <span class="stats-item"><span class="n">+87</span><span class="l">Avaliações Positivas</span></span>
+      <span class="stats-sep">✦</span>
+      <span class="stats-item"><span class="n">100%</span><span class="l">Atendimento Domiciliar</span></span>
+      <span class="stats-sep">✦</span>
+      <span class="stats-item"><span class="n">SP</span><span class="l">Atende Toda a Capital</span></span>
+      <span class="stats-sep">✦</span>
+      <span class="stats-item"><span class="n">5.0</span><span class="l">Avaliação no Google</span></span>
+      <span class="stats-sep">✦</span>
+      <span class="stats-item"><span class="n">+87</span><span class="l">Avaliações Positivas</span></span>
+      <span class="stats-sep">✦</span>
+      <span class="stats-item"><span class="n">100%</span><span class="l">Atendimento Domiciliar</span></span>
+      <span class="stats-sep">✦</span>
+      <span class="stats-item"><span class="n">SP</span><span class="l">Atende Toda a Capital</span></span>
+      <span class="stats-sep">✦</span>
     </div>
   </div>
 </section>
@@ -824,6 +999,82 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="dots" id="testiDots"></div>
 </section>
 
+<!-- ===== PROPOSTA DE VALOR ===== -->
+<section class="section value-section">
+  <div class="container">
+    <div class="tc">
+      <span class="s-tag">Por que domiciliar</span>
+      <h2 class="s-title">O cuidado que vai <span style="color:var(--nude)">até você</span></h2>
+    </div>
+
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="value-img">
+          <span class="value-num">01</span>
+          <img src="bloco03.webp" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" width="500" height="500">
+        </div>
+        <div class="value-body">
+          <h3 class="value-title">Atendimento Personalizado</h3>
+          <p class="value-desc">Cada pet é único. A consulta acontece no tempo e no ritmo do seu companheiro, com avaliação atenciosa e orientação clara.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-img">
+          <span class="value-num">02</span>
+          <img src="bloco02.webp" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" width="500" height="500">
+        </div>
+        <div class="value-body">
+          <h3 class="value-title">Comodidade Total</h3>
+          <p class="value-desc">Sem fila, sem transporte estressante e sem sala de espera. A Dra. Caroline leva todo o cuidado veterinário até a sua casa.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-img">
+          <span class="value-num">03</span>
+          <img src="bloco01.webp" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" width="500" height="500">
+        </div>
+        <div class="value-body">
+          <h3 class="value-title">Atendimento Flexível</h3>
+          <p class="value-desc">Agenda que se adapta à sua rotina, com resposta rápida pelo WhatsApp para marcar a visita no melhor horário para você e seu pet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DIFERENCIAIS ===== -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="tc">
+      <span class="s-tag">Diferenciais</span>
+      <h2 class="s-title">Mais segurança e <span style="color:var(--nude)">bem-estar</span></h2>
+    </div>
+
+    <div class="why-list" style="max-width:720px;margin-left:auto;margin-right:auto">
+      <div class="why-item">
+        <div class="why-icon">
+          <!-- shield check -->
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <h3 class="why-title">Segurança</h3>
+          <p class="why-desc">No conforto de casa, seu pet fica longe do risco de contágio com outros animais doentes e do estresse do ambiente hospitalar, o que favorece um diagnóstico mais preciso.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <!-- cat -->
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l2.5 3.5M20 4l-2.5 3.5"/><path d="M4.5 8.5C4.5 7 5.5 6 7 6c2 0 2.5 1.5 5 1.5S16.5 6 18 6c1.5 0 2.5 1 2.5 2.5V13a6 6 0 01-6 6h-5a6 6 0 01-6-6V8.5z"/><path d="M9 12h.01M15 12h.01M11 15h2"/></svg>
+        </div>
+        <div>
+          <h3 class="why-title">Cat Friendly</h3>
+          <p class="why-desc">Manejo de baixo estresse com técnicas que respeitam o comportamento felino, para que a consulta do seu gato seja tranquila e sem trauma.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== SERVICES ===== -->
 <section class="section">
   <div class="container">
@@ -834,123 +1085,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="services-grid">
       <div class="s-card">
-        <div class="s-card-icon">
-          <!-- stethoscope / home visit -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3"/></svg>
+        <div class="s-card-img">
+          <img src="servico1.webp" alt="Consulta Domiciliar Completa" loading="lazy" width="400" height="300">
         </div>
-        <h3 class="s-card-title">Consulta Domiciliar Completa</h3>
-        <p class="s-card-desc">Avaliação atenciosa e orientação clara, no seu tempo e no ritmo do seu pet, sem espera e sem estresse.</p>
+        <div class="s-card-body">
+          <h3 class="s-card-title">Consulta Domiciliar Completa</h3>
+          <p class="s-card-desc">Avaliação atenciosa e orientação clara, no seu tempo e no ritmo do seu pet, sem espera e sem estresse.</p>
+        </div>
       </div>
       <div class="s-card">
-        <div class="s-card-icon">
-          <!-- syringe -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2l4 4M3 21l4-4M9.5 14.5l-5 5M17 3l4 4-10 10-3-1-1-3 10-10z"/><path d="M10 9l5 5M13 6l5 5"/></svg>
+        <div class="s-card-img">
+          <img src="servico2.webp" alt="Vacinas e Microchipagem" loading="lazy" width="400" height="300">
         </div>
-        <h3 class="s-card-title">Vacinas e Microchipagem</h3>
-        <p class="s-card-desc">Proteção e identificação com toda a segurança, aplicadas no conforto da sua casa.</p>
+        <div class="s-card-body">
+          <h3 class="s-card-title">Vacinas e Microchipagem</h3>
+          <p class="s-card-desc">Proteção e identificação com toda a segurança, aplicadas no conforto da sua casa.</p>
+        </div>
       </div>
       <div class="s-card">
-        <div class="s-card-icon">
-          <!-- test tube / lab -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 2v12.5a4.5 4.5 0 01-9 0V2"/><path d="M5.5 2h9M8 11h5"/></svg>
+        <div class="s-card-img">
+          <img src="servico3.webp" alt="Exames Laboratoriais e de Imagem" loading="lazy" width="400" height="300">
         </div>
-        <h3 class="s-card-title">Exames Laboratoriais e de Imagem</h3>
-        <p class="s-card-desc">Coleta e encaminhamento em domicílio, com acompanhamento próximo dos resultados.</p>
+        <div class="s-card-body">
+          <h3 class="s-card-title">Exames Laboratoriais e de Imagem</h3>
+          <p class="s-card-desc">Coleta e encaminhamento em domicílio, com acompanhamento próximo dos resultados.</p>
+        </div>
       </div>
       <div class="s-card">
-        <div class="s-card-icon">
-          <!-- pills / medication -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 20.5a5 5 0 01-7-7l6-6a5 5 0 017 7l-6 6z"/><path d="M8.5 8.5l7 7"/></svg>
+        <div class="s-card-img">
+          <img src="servico4.webp" alt="Medicações e Tratamentos" loading="lazy" width="400" height="300">
         </div>
-        <h3 class="s-card-title">Medicações e Tratamentos</h3>
-        <p class="s-card-desc">Aplicação e acompanhamento contínuo para a recuperação completa do seu pet.</p>
+        <div class="s-card-body">
+          <h3 class="s-card-title">Medicações e Tratamentos</h3>
+          <p class="s-card-desc">Aplicação e acompanhamento contínuo para a recuperação completa do seu pet.</p>
+        </div>
       </div>
       <div class="s-card">
-        <div class="s-card-icon">
-          <!-- document / travel certificate -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+        <div class="s-card-img">
+          <img src="servico5.webp" alt="Atestado de Viagem (CVI) e Titulação" loading="lazy" width="400" height="300">
         </div>
-        <h3 class="s-card-title">Atestado de Viagem (CVI) e Titulação</h3>
-        <p class="s-card-desc">Documentação nacional e internacional e titulação de anticorpos para viajar com seu pet sem dor de cabeça.</p>
+        <div class="s-card-body">
+          <h3 class="s-card-title">Atestado de Viagem (CVI) e Titulação</h3>
+          <p class="s-card-desc">Documentação nacional e internacional e titulação de anticorpos para viajar com seu pet sem dor de cabeça.</p>
+        </div>
       </div>
       <div class="s-card">
-        <div class="s-card-icon">
-          <!-- heart pulse / surgery -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><path d="M3.5 12h4l1.5-3 2 6 1.5-3h4"/></svg>
+        <div class="s-card-img">
+          <img src="servico6.webp" alt="Avaliação e Procedimentos Cirúrgicos" loading="lazy" width="400" height="300">
         </div>
-        <h3 class="s-card-title">Avaliação e Procedimentos Cirúrgicos</h3>
-        <p class="s-card-desc">Análise cuidadosa e encaminhamento em estrutura adequada sempre que necessário.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CLINIC IMAGES ===== -->
-<section class="section section-alt">
-  <div class="container tc">
-    <span class="s-tag">Atendimento</span>
-    <h2 class="s-title">Cuidado humano e comprometido</h2>
-    <p class="s-sub">Seu pet acolhido no lugar onde ele se sente mais seguro: a própria casa</p>
-
-    <div class="clinic-fade" id="clinicFade">
-      <div class="clinic-img-slide on" id="cslide-0">
-        <img src="dr1.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
-      </div>
-      <div class="clinic-img-slide" id="cslide-1">
-        <img src="dr2.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
-      </div>
-      <div class="clinic-img-slide" id="cslide-2">
-        <img src="dr3.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
-      </div>
-      <div class="clinic-img-slide" id="cslide-3">
-        <img src="dr4.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
-      </div>
-      <div class="clinic-img-slide" id="cslide-4">
-        <img src="dr5.webp" alt="Dra. Caroline Machado - Atendimento domiciliar" loading="lazy" width="900" height="1400">
-      </div>
-    </div>
-
-    <div class="dots" id="clinicDots"></div>
-  </div>
-</section>
-
-<!-- ===== WHY CHOOSE ===== -->
-<section class="section">
-  <div class="container">
-    <div class="tc">
-      <span class="s-tag">Diferenciais</span>
-      <h2 class="s-title">Por que escolher a <span style="color:var(--nude)">Dra. Caroline?</span></h2>
-    </div>
-
-    <div class="why-list">
-      <div class="why-item">
-        <div class="why-icon">
-          <!-- star -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <div>
-          <h3 class="why-title">5.0 no Google, com 87 avaliações reais</h3>
-          <p class="why-desc">Confiança comprovada por quem já foi atendido. A reputação construída no cuidado próximo com cada pet e cada tutor.</p>
-        </div>
-      </div>
-      <div class="why-item">
-        <div class="why-icon">
-          <!-- home -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
-        </div>
-        <div>
-          <h3 class="why-title">Atendimento no conforto de casa</h3>
-          <p class="why-desc">Menos estresse para o pet e mais praticidade para você. Nada de espera em recepção ou transporte que assusta.</p>
-        </div>
-      </div>
-      <div class="why-item">
-        <div class="why-icon">
-          <!-- heart -->
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-        </div>
-        <div>
-          <h3 class="why-title">Cuidado humano e comprometido</h3>
-          <p class="why-desc">Tutores destacam o carinho e a dedicação em cada visita. Atendimento com calma, atenção e compromisso real.</p>
+        <div class="s-card-body">
+          <h3 class="s-card-title">Avaliação e Procedimentos Cirúrgicos</h3>
+          <p class="s-card-desc">Análise cuidadosa e encaminhamento em estrutura adequada sempre que necessário.</p>
         </div>
       </div>
     </div>
@@ -973,7 +1158,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <p>© 2026 Dra. Caroline Machado — Médica Veterinária em São Paulo, SP</p>
+  <p>© 2026 Dra. Caroline Machado · Médica Veterinária em São Paulo, SP</p>
   <p style="margin-top:6px">Atendimento Veterinário Domiciliar (Home Care) · O cuidado que vai até o seu pet</p>
 </footer>
 
