@@ -861,7 +861,18 @@ footer {
   .why-title, .why-desc,
   .cta-title, .cta-text { text-align: center !important; }
 
-  .hero-name { font-size: 42px; }
+  /* Hero mobile: foto de fundo (Dra. embaixo), conteúdo no topo sobre a área clara */
+  .hero {
+    background: #fff url("bg-mobile.webp") center bottom / 100% auto no-repeat;
+    align-items: flex-start;
+    min-height: 132vh;
+    min-height: 132dvh;
+    padding: 90px 20px 40px;
+  }
+
+  .hero-name { font-size: 36px; }
+
+  .hero-sub { font-size: 13.5px; max-width: 360px; }
 
   .mob-br { display: inline; }
 
@@ -914,9 +925,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <p class="hero-label">Médica Veterinária · CRM 52551</p>
 
-    <h1 class="hero-name">Todo o cuidado que seu pet merece, <em>no conforto de casa</em></h1>
+    <h1 class="hero-name">Todo o cuidado<br class="mob-br"> que seu pet merece,<br class="mob-br"> <em>no conforto de casa</em></h1>
 
-    <p class="hero-sub">Atendimento veterinário domiciliar com calma, atenção<br class="desk-br"> e carinho, sem filas e sem sala de espera.</p>
+    <p class="hero-sub">Atendimento veterinário domiciliar com calma,<br class="mob-br"> atenção<br class="desk-br"> e carinho, sem filas e sem sala de espera.</p>
 
     <div class="hero-cta-group">
       <div class="hero-cta">
