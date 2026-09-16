@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5HHS5Q2P');</script>
+<!-- Google Tag Manager (adiado: carrega na primeira interação ou 3,5s após o load, para não bloquear a renderização) -->
+<script>
+window.dataLayer=window.dataLayer||[];
+(function(w,d){
+  var loaded=false,evts=['scroll','pointerdown','touchstart','keydown','mousemove'];
+  function load(){
+    if(loaded)return;loaded=true;
+    evts.forEach(function(e){w.removeEventListener(e,load,{passive:true});});
+    w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var j=d.createElement('script');j.async=true;
+    j.src='https://www.googletagmanager.com/gtm.js?id=GTM-5HHS5Q2P';
+    d.head.appendChild(j);
+  }
+  evts.forEach(function(e){w.addEventListener(e,load,{passive:true,once:true});});
+  w.addEventListener('load',function(){setTimeout(load,3500);});
+})(window,document);
+</script>
 <!-- End Google Tag Manager -->
 
 <meta charset="UTF-8">
@@ -14,6 +25,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Dra. Caroline Machado | Veterinária a Domicílio em São Paulo</title>
 <meta name="description" content="Atendimento veterinário domiciliar em São Paulo. 5.0 no Google com 87 avaliações. O cuidado que seu pet precisa, no conforto de casa e sem estresse.">
+
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
 
 <link rel="icon" type="image/webp" href="logo.webp">
 <link rel="apple-touch-icon" href="logo.webp">
@@ -123,11 +137,25 @@ body {
   transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
   -webkit-tap-highlight-color: transparent;
   box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+  position: relative;
+}
+
+/* Pulso composto: anima só opacity/transform de um anel (sem repintar box-shadow) */
+.btn-wa-lg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 4px 36px rgba(37,211,102,0.6), 0 0 0 8px rgba(37,211,102,0.1);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
   animation: pulse-wa 2.5s ease-in-out infinite;
 }
 
+.btn-wa-lg:hover::before, .btn-wa-lg:active::before { animation: none; opacity: 0; }
+
 .btn-wa-lg:hover, .btn-wa-lg:active {
-  animation: none;
   background: var(--wa-dark);
   transform: scale(0.98);
   box-shadow: 0 2px 12px rgba(37,211,102,0.4);
@@ -140,8 +168,8 @@ body {
 }
 
 @keyframes pulse-wa {
-  0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.35); }
-  50% { box-shadow: 0 4px 36px rgba(37,211,102,0.6), 0 0 0 8px rgba(37,211,102,0.1); }
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
 }
 
 .wa-svg {
@@ -168,6 +196,22 @@ body {
 
 .hero-overlay {
   display: none;
+}
+
+/* Fundo do hero como <img> (detectável no HTML, com fetchpriority=high) */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
 }
 
 /* Granulado leve sobre o hero */
@@ -811,12 +855,23 @@ body {
   border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+.float-wa::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 4px 32px rgba(37,211,102,0.7), 0 0 0 10px rgba(37,211,102,0.1);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
   animation: float-pulse 3s ease-in-out infinite;
 }
 
 @keyframes float-pulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
-  50% { box-shadow: 0 4px 32px rgba(37,211,102,0.7), 0 0 0 10px rgba(37,211,102,0.1); }
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
 }
 
 .float-wa svg { width: 28px; height: 28px; fill: #fff; }
@@ -836,7 +891,7 @@ footer {
 /* ==================== HERO DESKTOP (imagem de fundo) ==================== */
 @media (min-width: 768px) {
   .hero {
-    background: #ffffff url("bg-desktop.webp") center 22% / cover no-repeat;
+    background: #ffffff;
     justify-content: flex-start;
     text-align: left;
     min-height: 520px;
@@ -874,12 +929,16 @@ footer {
 
   /* Hero mobile: foto de fundo (Dra. embaixo), conteúdo no topo sobre a área clara */
   .hero {
-    background: #fff url("bg-mobile.webp") center bottom / 100% auto no-repeat;
+    background: #fff;
     align-items: flex-start;
     min-height: 132vh;
     min-height: 132dvh;
     padding: 90px 20px 40px;
   }
+
+  /* Mobile: foto em largura total, ancorada no rodapé do hero */
+  .hero-bg { top: auto; }
+  .hero-bg img { height: auto; }
 
   .hero-name { font-size: 36px; }
 
@@ -918,17 +977,23 @@ footer {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></symbol></svg>
+
 <!-- ===== HEADER ===== -->
 <header class="header">
   <p class="header-text">Atendimento Disponível <strong>Agora</strong></p>
   <a class="btn-wa" href="https://wa.me/5511956177586?text=Ol%C3%A1%20encontrei%20voc%C3%AAs%20pelo%20Google%2C%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer" aria-label="Atendimento via WhatsApp">
-    <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <svg class="wa-svg" aria-hidden="true"><use href="#i-wa"/></svg>
     Entre em contato
   </a>
 </header>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+  <picture class="hero-bg">
+    <source media="(min-width: 768px)" srcset="bg-desktop-1280.webp 1280w, bg-desktop-1920.webp 1920w" sizes="100vw" width="1920" height="1079">
+    <img src="bg-mobile-480.webp" srcset="bg-mobile-480.webp 480w, bg-mobile-828.webp 828w" sizes="100vw" width="480" height="853" alt="" fetchpriority="high" decoding="async">
+  </picture>
   <div class="hero-overlay"></div>
   <div class="hero-content">
 
@@ -943,7 +1008,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="hero-cta-group">
       <div class="hero-cta">
         <a class="btn-wa-lg" href="https://wa.me/5511956177586?text=Ol%C3%A1%20encontrei%20voc%C3%AAs%20pelo%20Google%2C%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer" aria-label="Falar via WhatsApp">
-          <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <svg class="wa-svg" aria-hidden="true"><use href="#i-wa"/></svg>
           Atendimento Imediato
         </a>
       </div>
@@ -1000,19 +1065,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="testi-wrapper" id="testiWrap" aria-label="Carrossel de depoimentos">
     <div class="testi-track" id="testiTrack">
       <div class="testi-slide">
-        <img src="1.webp" alt="Avaliação 1" loading="lazy" width="300" height="400">
+        <img src="1-340.webp" srcset="1-340.webp 340w, 1-500.webp 500w" sizes="(max-width: 767px) 82vw, 293px" alt="Avaliação 1" loading="lazy" decoding="async" width="340" height="432">
       </div>
       <div class="testi-slide">
-        <img src="2.webp" alt="Avaliação 2" loading="lazy" width="300" height="400">
+        <img src="2-340.webp" srcset="2-340.webp 340w, 2-500.webp 500w" sizes="(max-width: 767px) 82vw, 293px" alt="Avaliação 2" loading="lazy" decoding="async" width="340" height="432">
       </div>
       <div class="testi-slide">
-        <img src="3.webp" alt="Avaliação 3" loading="lazy" width="300" height="400">
+        <img src="3-340.webp" srcset="3-340.webp 340w, 3-500.webp 500w" sizes="(max-width: 767px) 82vw, 293px" alt="Avaliação 3" loading="lazy" decoding="async" width="340" height="432">
       </div>
       <div class="testi-slide">
-        <img src="4.webp" alt="Avaliação 4" loading="lazy" width="300" height="400">
+        <img src="4-340.webp" srcset="4-340.webp 340w, 4-500.webp 500w" sizes="(max-width: 767px) 82vw, 293px" alt="Avaliação 4" loading="lazy" decoding="async" width="340" height="432">
       </div>
       <div class="testi-slide">
-        <img src="5.webp" alt="Avaliação 5" loading="lazy" width="300" height="400">
+        <img src="5-340.webp" srcset="5-340.webp 340w, 5-500.webp 500w" sizes="(max-width: 767px) 82vw, 293px" alt="Avaliação 5" loading="lazy" decoding="async" width="340" height="432">
       </div>
     </div>
   </div>
@@ -1033,7 +1098,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="value-card">
         <div class="value-img">
           <span class="value-num">01</span>
-          <img src="bloco03.webp" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" width="500" height="500">
+          <img src="bloco03-400.webp" srcset="bloco03-400.webp 400w, bloco03-750.webp 750w" sizes="(max-width: 767px) calc(100vw - 40px), 280px" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" decoding="async" width="400" height="400">
         </div>
         <div class="value-body">
           <h3 class="value-title">Atendimento Personalizado</h3>
@@ -1043,7 +1108,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="value-card">
         <div class="value-img">
           <span class="value-num">02</span>
-          <img src="bloco02.webp" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" width="500" height="500">
+          <img src="bloco02-400.webp" srcset="bloco02-400.webp 400w, bloco02-750.webp 750w" sizes="(max-width: 767px) calc(100vw - 40px), 280px" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" decoding="async" width="400" height="400">
         </div>
         <div class="value-body">
           <h3 class="value-title">Comodidade Total</h3>
@@ -1053,7 +1118,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="value-card">
         <div class="value-img">
           <span class="value-num">03</span>
-          <img src="bloco01.webp" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" width="500" height="500">
+          <img src="bloco01-400.webp" srcset="bloco01-400.webp 400w, bloco01-750.webp 750w" sizes="(max-width: 767px) calc(100vw - 40px), 280px" alt="Dra. Caroline em atendimento domiciliar" loading="lazy" decoding="async" width="400" height="400">
         </div>
         <div class="value-body">
           <h3 class="value-title">Atendimento Flexível</h3>
@@ -1108,7 +1173,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="services-grid">
       <div class="s-card">
         <div class="s-card-img">
-          <img src="servico1.webp" alt="Consulta Domiciliar Completa" loading="lazy" width="400" height="300">
+          <img src="servico1-400.webp" srcset="servico1-400.webp 400w, servico1.webp 800w" sizes="(max-width: 767px) calc(100vw - 60px), 280px" alt="Consulta Domiciliar Completa" loading="lazy" decoding="async" width="400" height="300">
         </div>
         <div class="s-card-body">
           <h3 class="s-card-title">Consulta Domiciliar Completa</h3>
@@ -1117,7 +1182,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="s-card">
         <div class="s-card-img">
-          <img src="servico2.webp" alt="Vacinas e Microchipagem" loading="lazy" width="400" height="300">
+          <img src="servico2-400.webp" srcset="servico2-400.webp 400w, servico2.webp 800w" sizes="(max-width: 767px) calc(100vw - 60px), 280px" alt="Vacinas e Microchipagem" loading="lazy" decoding="async" width="400" height="300">
         </div>
         <div class="s-card-body">
           <h3 class="s-card-title">Vacinas e Microchipagem</h3>
@@ -1126,7 +1191,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="s-card">
         <div class="s-card-img">
-          <img src="servico3.webp" alt="Exames Laboratoriais e de Imagem" loading="lazy" width="400" height="300">
+          <img src="servico3-400.webp" srcset="servico3-400.webp 400w, servico3.webp 800w" sizes="(max-width: 767px) calc(100vw - 60px), 280px" alt="Exames Laboratoriais e de Imagem" loading="lazy" decoding="async" width="400" height="300">
         </div>
         <div class="s-card-body">
           <h3 class="s-card-title">Exames Laboratoriais e de Imagem</h3>
@@ -1135,7 +1200,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="s-card">
         <div class="s-card-img">
-          <img src="servico4.webp" alt="Medicações e Tratamentos" loading="lazy" width="400" height="300">
+          <img src="servico4-400.webp" srcset="servico4-400.webp 400w, servico4.webp 800w" sizes="(max-width: 767px) calc(100vw - 60px), 280px" alt="Medicações e Tratamentos" loading="lazy" decoding="async" width="400" height="300">
         </div>
         <div class="s-card-body">
           <h3 class="s-card-title">Medicações e Tratamentos</h3>
@@ -1144,7 +1209,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="s-card">
         <div class="s-card-img">
-          <img src="servico5.webp" alt="Atestado de Viagem (CVI) e Titulação" loading="lazy" width="400" height="300">
+          <img src="servico5-400.webp" srcset="servico5-400.webp 400w, servico5.webp 800w" sizes="(max-width: 767px) calc(100vw - 60px), 280px" alt="Atestado de Viagem (CVI) e Titulação" loading="lazy" decoding="async" width="400" height="300">
         </div>
         <div class="s-card-body">
           <h3 class="s-card-title">Atestado de Viagem (CVI) e Titulação</h3>
@@ -1153,7 +1218,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="s-card">
         <div class="s-card-img">
-          <img src="servico6.webp" alt="Avaliação e Procedimentos Cirúrgicos" loading="lazy" width="400" height="300">
+          <img src="servico6-400.webp" srcset="servico6-400.webp 400w, servico6.webp 800w" sizes="(max-width: 767px) calc(100vw - 60px), 280px" alt="Avaliação e Procedimentos Cirúrgicos" loading="lazy" decoding="async" width="400" height="300">
         </div>
         <div class="s-card-body">
           <h3 class="s-card-title">Avaliação e Procedimentos Cirúrgicos</h3>
@@ -1172,7 +1237,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="cta-title">A saúde do seu pet<br>não pode esperar.</h2>
     <p class="cta-text">Quando seu companheiro precisar, a Dra. Caroline vai até você com agilidade, cuidado e toda a atenção que ele merece. Fale agora e agende a visita.</p>
     <a class="btn-wa-lg" href="https://wa.me/5511956177586?text=Ol%C3%A1%20encontrei%20voc%C3%AAs%20pelo%20Google%2C%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer" aria-label="Falar via WhatsApp">
-      <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <svg class="wa-svg" aria-hidden="true"><use href="#i-wa"/></svg>
       Atendimento Imediato
     </a>
   </div>
@@ -1186,7 +1251,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ===== FLOATING WA BUTTON ===== -->
 <a class="float-wa" href="https://wa.me/5511956177586?text=Ol%C3%A1%20encontrei%20voc%C3%AAs%20pelo%20Google%2C%20gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <svg aria-hidden="true"><use href="#i-wa"/></svg>
 </a>
 
 <script>
@@ -1218,7 +1283,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var animating = false;
   var timer;
 
-  function slideW() { return originals[0].offsetWidth + GAP; }
+  // Largura do slide via ResizeObserver: evita ler offsetWidth (reflow forçado) a cada troca
+  var sw = 0;
+  function slideW() {
+    if (!sw) sw = originals[0].getBoundingClientRect().width + GAP;
+    return sw;
+  }
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(function (entries) {
+      sw = entries[0].contentRect.width + GAP;
+      if (!dragging && !animating) setTX(-cur * sw, false);
+    }).observe(originals[0]);
+  }
 
   function setTX(px, animate) {
     curTX = px;
@@ -1326,39 +1402,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.addEventListener('mousemove', function (e) { dragMove(e.clientX); });
   window.addEventListener('mouseup', function (e) { dragEnd(e.clientX); });
 
-  window.addEventListener('resize', function () { setTX(-cur * slideW(), false); });
+  if (!('ResizeObserver' in window)) {
+    window.addEventListener('resize', function () { sw = 0; setTX(-cur * slideW(), false); });
+  }
 
   buildDots();
   resetTimer();
 })();
 
-// ===== CLINIC FADE CAROUSEL =====
-(function () {
-  var slides = document.querySelectorAll('.clinic-img-slide');
-  var dotsEl = document.getElementById('clinicDots');
-  if (!slides.length) return;
-
-  var cur = 0;
-
-  slides.forEach(function (_, i) {
-    var d = document.createElement('button');
-    d.className = 'dot' + (i === 0 ? ' on' : '');
-    d.setAttribute('aria-label', 'Imagem ' + (i + 1));
-    d.addEventListener('click', function () { goTo(i); });
-    dotsEl.appendChild(d);
-  });
-
-  function goTo(i) {
-    slides[cur].classList.remove('on');
-    cur = (i + slides.length) % slides.length;
-    slides[cur].classList.add('on');
-    dotsEl.querySelectorAll('.dot').forEach(function (d, j) {
-      d.classList.toggle('on', j === cur);
-    });
-  }
-
-  setInterval(function () { goTo(cur + 1); }, 3500);
-})();
 </script>
 </body>
 </html>
